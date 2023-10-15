@@ -5,7 +5,7 @@
 
 ## DIAGRAMA
 
-![WebApplication drawio](https://github.com/LcFelicio/Estacionamento/assets/81930256/2303c92f-f169-4531-811a-df3285654689)
+![WebApplication drawio](https://github.com/LcFelicio/Estacionamento/assets/81930256/1795c9d9-8487-469c-9fd1-6e1a04266683)
 
 
 ## FUNCIONALIDADES
