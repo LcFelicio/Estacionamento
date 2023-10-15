@@ -35,7 +35,7 @@ namespace Estacionamento.Models
         [ForeignKey("EstacionamentoId")]
         [Display(Name = "Estacionamento: ")]
         public int EstacionamentoId { get; set; }
-        public Estacionamento Estacionamento { get; set; }
+        public EstacionamentoModel Estacionamento { get; set; }
 
     }
 }

@@ -11,7 +11,7 @@ namespace Estacionamento.Models
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Funcionario> Funcionarios { get; set; }
         public DbSet<Veiculo> Veiculos { get; set; }
-        public DbSet<Estacionamento> Estacionamentos { get; set; }
+        public DbSet<EstacionamentoModel> Estacionamentos { get; set; }
         public DbSet<Registro> Registros { get; set; }
     }
 }

@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Estacionamento.Models
 {
-    [Table("Clientes")]
     public class Cliente
     {
         [Key]
