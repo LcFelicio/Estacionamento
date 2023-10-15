@@ -7,10 +7,11 @@ namespace Estacionamento.Models
     {
         public Contexto(DbContextOptions<Contexto> options) : base(options) { }
 
-        public DbSet<ModeloVeiculo> ModelosVeiculos { get; set; }
+        public DbSet<ModeloVeiculo> ModelosVeiculo { get; set; }
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Funcionario> Funcionarios { get; set; }
         public DbSet<Veiculo> Veiculos { get; set; }
         public DbSet<Estacionamento> Estacionamentos { get; set; }
+        public DbSet<Registro> Registros { get; set; }
     }
 }
