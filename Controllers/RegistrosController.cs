@@ -46,6 +46,82 @@ namespace Estacionamento.Controllers
             return View(registro);
         }
 
+        // GET: Registros/Entrada
+        public IActionResult Entrada()
+        {
+            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamentos, "Id", "Nome");
+            ViewData["FuncionarioId"] = new SelectList(_context.Funcionarios, "Id", "Cpf");
+            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Id");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        // POST: Registros/Entrada
+        public async Task<IActionResult> Entrada([Bind("Id,Entrada,VeiculoId,FuncionarioId,EstacionamentoId")] Registro registro)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(registro);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamentos, "Id", "Nome", registro.EstacionamentoId);
+            ViewData["FuncionarioId"] = new SelectList(_context.Funcionarios, "Id", "Cpf", registro.FuncionarioId);
+            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Id", registro.VeiculoId);
+            return View(registro);
+        }
+
+        // GET: Registros/Saida
+        public IActionResult Saida()
+        {
+            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Id");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        // POST: Registros/Saida
+        public async Task<IActionResult> Saida([Bind("Saida,ValorTotal,Pago,VeiculoId")] Registro registro)
+        {
+            Registro saida = new Registro();
+            
+            foreach (Registro r in _context.Registros)
+            {
+                if (r.VeiculoId == registro.VeiculoId)
+                {
+                    saida = r;
+                    break;
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    saida.Saida = registro.Saida;
+                    saida.ValorTotal = registro.ValorTotal;
+                    saida.Pago = registro.Pago;
+                    _context.Update(registro);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!RegistroExists(registro.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Id", registro.VeiculoId);
+            return View(registro);
+        }
+
         // GET: Registros/Create
         public IActionResult Create()
         {

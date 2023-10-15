@@ -45,6 +45,15 @@ namespace Estacionamento.Controllers
         // GET: Funcionarios/Create
         public IActionResult Create()
         {
+            var estado = Enum.GetValues(typeof(EstadoEnum))
+                .Cast<EstadoEnum>()
+                .Select(e => new SelectListItem
+                {
+                    Value = e.ToString(),
+                    Text = e.ToString()
+                });
+
+            ViewBag.bagEstado = estado;
             return View();
         }
 
@@ -77,6 +86,15 @@ namespace Estacionamento.Controllers
             {
                 return NotFound();
             }
+            var estado = Enum.GetValues(typeof(EstadoEnum))
+                .Cast<EstadoEnum>()
+                .Select(e => new SelectListItem
+                {
+                    Value = e.ToString(),
+                    Text = e.ToString()
+                });
+
+            ViewBag.bagEstado = estado;
             return View(funcionario);
         }
 

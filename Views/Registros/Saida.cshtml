@@ -4,18 +4,13 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Novo Registro</h1>
+<h1>Registrar Saida</h1>
 
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form asp-action="Saida">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Entrada" class="control-label"></label>
-                <input asp-for="Entrada" class="form-control" />
-                <span asp-validation-for="Entrada" class="text-danger"></span>
-            </div>
             <div class="form-group">
                 <label asp-for="Saida" class="control-label"></label>
                 <input asp-for="Saida" class="form-control" />
@@ -23,7 +18,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="ValorTotal" class="control-label"></label>
-                <input asp-for="ValorTotal" class="form-control"/>
+                <input asp-for="ValorTotal" class="form-control" />
                 <span asp-validation-for="ValorTotal" class="text-danger"></span>
             </div>
             <div class="form-group form-check">
@@ -33,15 +28,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="VeiculoId" class="control-label"></label>
-                <select asp-for="VeiculoId" class ="form-control" asp-items="ViewBag.VeiculoId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="FuncionarioId" class="control-label"></label>
-                <select asp-for="FuncionarioId" class ="form-control" asp-items="ViewBag.FuncionarioId"></select>
-            </div>
-            <div class="form-group">
-                <label asp-for="EstacionamentoId" class="control-label"></label>
-                <select asp-for="EstacionamentoId" class ="form-control" asp-items="ViewBag.EstacionamentoId"></select>
+                <select asp-for="VeiculoId" class="form-control" asp-items="ViewBag.VeiculoId"></select>
             </div>
             <div class="form-group" style="padding-top: 6px">
                 <input type="submit" value="Salvar" class="btn btn-primary" />

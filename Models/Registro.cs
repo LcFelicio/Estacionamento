@@ -19,7 +19,7 @@ namespace Estacionamento.Models
         [Display(Name = "Valor Total: ")]
         public Double ValorTotal { get; set; }
 
-        [Display(Name = "Pago: ")]
+        [Display(Name = "Pago")]
         public Boolean Pago { get; set; }
 
         [ForeignKey("VeiculoId")]
