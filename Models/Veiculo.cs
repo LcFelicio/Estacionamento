@@ -16,12 +16,14 @@ namespace Estacionamento.Models
         [Display(Name = "Cor: ")]
         public string cor { get; set; }
         
-        [ForeignKey]
+        [ForeignKey("ModeloId")]
         [Display(Name = "Modelo: ")]
-        public string Modelo { get; set; }
+        public int ModeloId { get; set; }
+        public ModeloVeiculo Modelo { get; set; }
         
-        [ForeignKey]
+        [ForeignKey("ClienteId")]
         [Display(Name = "Cliente: ")]
-        public int Cliente { get; set; }
+        public int ClienteId { get; set; }
+        public Cliente cliente { get; set; }
     }
 }
