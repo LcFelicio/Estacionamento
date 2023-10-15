@@ -45,6 +45,16 @@ namespace Estacionamento.Controllers
         // GET: ModeloVeiculoes/Create
         public IActionResult Create()
         {
+            var tipo = Enum.GetValues(typeof(TipoVeiculo))
+                .Cast<TipoVeiculo>()
+                .Select(e => new SelectListItem
+                {
+                    Value = e.ToString(),
+                    Text = e.ToString()
+                });
+
+            ViewBag.bagTipo = tipo;
+
             return View();
         }
 

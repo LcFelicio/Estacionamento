@@ -6,7 +6,7 @@
 
 <h1>Criar</h1>
 
-<h4>EstacionamentoModel</h4>
+<h4>Estacionamento</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -29,7 +29,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="Estado" class="control-label"></label>
-                <select asp-for="Estado" asp-items="ViewBag.bagEstado" class="form-control"></select>
+                <select asp-for="Estado" asp-items="ViewBag.bagEstado" class="form-control">
+                    <option selected="selected" value=""></option>
+                </select>
                 <span asp-validation-for="Estado" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -58,7 +60,7 @@
                 <span asp-validation-for="ValorHora" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Criar" class="btn btn-primary" />
             </div>
         </form>
     </div>
