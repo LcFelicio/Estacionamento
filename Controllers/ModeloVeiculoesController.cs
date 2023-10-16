@@ -87,6 +87,16 @@ namespace Estacionamento.Controllers
             {
                 return NotFound();
             }
+            var tipo = Enum.GetValues(typeof(TipoVeiculo))
+                .Cast<TipoVeiculo>()
+                .Select(e => new SelectListItem
+                {
+                    Value = e.ToString(),
+                    Text = e.ToString()
+                });
+
+            ViewBag.bagTipo = tipo;
+
             return View(modeloVeiculo);
         }
 

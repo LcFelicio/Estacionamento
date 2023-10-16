@@ -50,8 +50,8 @@ namespace Estacionamento.Controllers
         public IActionResult Entrada()
         {
             ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamentos, "Id", "Nome");
-            ViewData["FuncionarioId"] = new SelectList(_context.Funcionarios, "Id", "Cpf");
-            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Id");
+            ViewData["FuncionarioId"] = new SelectList(_context.Funcionarios, "Id", "Nome");
+            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Placa");
             return View();
         }
 

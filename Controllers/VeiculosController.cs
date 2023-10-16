@@ -48,8 +48,8 @@ namespace Estacionamento.Controllers
         // GET: Veiculos/Create
         public IActionResult Create()
         {
-            ViewData["ModeloId"] = new SelectList(_context.ModelosVeiculo, "Id", "Id");
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Id");
+            ViewData["ModeloId"] = new SelectList(_context.ModelosVeiculo, "Id", "Descricao");
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nome");
             return View();
         }
 

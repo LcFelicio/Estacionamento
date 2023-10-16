@@ -41,7 +41,9 @@
             </div>
             <div class="form-group">
                 <label asp-for="Funcao" class="control-label"></label>
-                <select asp-for="Funcao" class="form-control"></select>
+                <select asp-for="Funcao" asp-items="ViewBag.bagFuncao" class="form-control">
+                    <option selected="selected" value=""></option>
+                </select>
                 <span asp-validation-for="Funcao" class="text-danger"></span>
             </div>
             <div class="form-group">

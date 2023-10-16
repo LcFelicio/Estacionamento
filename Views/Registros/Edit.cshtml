@@ -35,17 +35,23 @@
             </div>
             <div class="form-group">
                 <label asp-for="VeiculoId" class="control-label"></label>
-                <select asp-for="VeiculoId" class="form-control" asp-items="ViewBag.VeiculoId"></select>
+                <select asp-for="VeiculoId" class="form-control" asp-items="ViewBag.VeiculoId">
+                    <option selected="selected" value=""></option>
+                </select>
                 <span asp-validation-for="VeiculoId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="FuncionarioId" class="control-label"></label>
-                <select asp-for="FuncionarioId" class="form-control" asp-items="ViewBag.FuncionarioId"></select>
+                <select asp-for="FuncionarioId" class="form-control" asp-items="ViewBag.FuncionarioId">
+                    <option selected="selected" value=""></option>
+                </select>
                 <span asp-validation-for="FuncionarioId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="EstacionamentoId" class="control-label"></label>
-                <select asp-for="EstacionamentoId" class="form-control" asp-items="ViewBag.EstacionamentoId"></select>
+                <select asp-for="EstacionamentoId" class="form-control" asp-items="ViewBag.EstacionamentoId">
+                    <option selected="selected" value=""></option>
+                </select>
                 <span asp-validation-for="EstacionamentoId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -56,7 +62,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Voltar para a lista</a>
 </div>
 
 @section Scripts {

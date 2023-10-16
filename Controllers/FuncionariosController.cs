@@ -52,8 +52,16 @@ namespace Estacionamento.Controllers
                     Value = e.ToString(),
                     Text = e.ToString()
                 });
+            var funcao = Enum.GetValues(typeof(Funcao))
+                .Cast<Funcao>()
+                .Select(e => new SelectListItem
+                {
+                    Value = e.ToString(),
+                    Text = e.ToString()
+                });
 
             ViewBag.bagEstado = estado;
+            ViewBag.bagFuncao = funcao;
             return View();
         }
 
@@ -93,8 +101,15 @@ namespace Estacionamento.Controllers
                     Value = e.ToString(),
                     Text = e.ToString()
                 });
-
+            var funcao = Enum.GetValues(typeof(Funcao))
+                .Cast<Funcao>()
+                .Select(e => new SelectListItem
+                {
+                    Value = e.ToString(),
+                    Text = e.ToString()
+                });
             ViewBag.bagEstado = estado;
+            ViewBag.bagFuncao = funcao;
             return View(funcionario);
         }
 
