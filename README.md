@@ -10,4 +10,14 @@
 
 ## FUNCIONALIDADES
 
-Operações basicas de CRUD (Adicionar, Remover, Atualizar e Selecionar) dos Models: Funcionario, Cliente, Veiculo, Modelo Veiculo, Estacionamento e Registro de Controle
+#### Operações basicas de CRUD 
+  . Funcionario
+  . Cliente
+  . Veiculo
+  . Modelo Veiculo
+  . Estacionamento
+  . Registro de Controle
+
+##### Movimentações
+Entrada/Saida de Veiculos
+Pagamento
