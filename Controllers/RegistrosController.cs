@@ -82,7 +82,7 @@ namespace Estacionamento.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         // POST: Registros/Saida
-        public async Task<IActionResult> Saida([Bind("Saida,ValorTotal,Pago,VeiculoId")] Registro registro)
+        public async Task<IActionResult> Saida([Bind("Saida,VeiculoId")] Registro registro)
         {
             Registro saida = new Registro();
             
@@ -99,9 +99,24 @@ namespace Estacionamento.Controllers
             {
                 try
                 {
+                    double valor = 0;
+
+                    switch (saida.Veiculo.Modelo.Tipo)
+                    {
+                        case TipoVeiculo.P:
+                            valor = saida.Estacionamento.Tarifa + saida.Estacionamento.ValorHora * (saida.Entrada - saida.Saida).TotalHours;
+                            break;
+                        case TipoVeiculo.M:
+                            valor = saida.Estacionamento.Tarifa + (saida.Estacionamento.ValorHora + saida.Estacionamento.ValorHora * 0.25) * (saida.Entrada - saida.Saida).TotalHours;
+                            break;
+                        case TipoVeiculo.G:
+                            valor = saida.Estacionamento.Tarifa + (saida.Estacionamento.ValorHora + saida.Estacionamento.ValorHora * 0.75) * (saida.Entrada - saida.Saida).TotalHours;
+                            break;
+                    }
+
                     saida.Saida = registro.Saida;
-                    saida.ValorTotal = registro.ValorTotal;
-                    saida.Pago = registro.Pago;
+                    saida.ValorTotal = valor;
+                    saida.Pago = false;
                     _context.Update(registro);
                     await _context.SaveChangesAsync();
                 }
