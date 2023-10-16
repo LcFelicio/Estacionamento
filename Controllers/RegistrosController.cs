@@ -68,14 +68,14 @@ namespace Estacionamento.Controllers
             }
             ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamentos, "Id", "Nome", registro.EstacionamentoId);
             ViewData["FuncionarioId"] = new SelectList(_context.Funcionarios, "Id", "Cpf", registro.FuncionarioId);
-            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Id", registro.VeiculoId);
+            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Placa", registro.VeiculoId);
             return View(registro);
         }
 
         // GET: Registros/Saida
         public IActionResult Saida()
         {
-            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Id");
+            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Placa");
             return View();
         }
 
@@ -85,10 +85,12 @@ namespace Estacionamento.Controllers
         public async Task<IActionResult> Saida([Bind("Saida,VeiculoId")] Registro registro)
         {
             Registro saida = new Registro();
-            
-            foreach (Registro r in _context.Registros)
+
+            var contexto = _context.Registros.Include(r => r.Estacionamento).Include(r => r.Funcionario).Include(r => r.Veiculo).Include(r => r.Veiculo.Modelo);
+
+            foreach (Registro r in contexto)
             {
-                if (r.VeiculoId == registro.VeiculoId)
+                if (r.VeiculoId == registro.VeiculoId && !r.Pago)
                 {
                     saida = r;
                     break;
@@ -99,6 +101,11 @@ namespace Estacionamento.Controllers
             {
                 try
                 {
+                    if(saida.Veiculo == null)
+                    {
+                        return NotFound();
+                    }
+                    
                     double valor = 0;
 
                     switch (saida.Veiculo.Modelo.Tipo)
@@ -117,7 +124,7 @@ namespace Estacionamento.Controllers
                     saida.Saida = registro.Saida;
                     saida.ValorTotal = valor;
                     saida.Pago = false;
-                    _context.Update(registro);
+                    _context.Update(saida);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -133,7 +140,7 @@ namespace Estacionamento.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Id", registro.VeiculoId);
+            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Placa", registro.VeiculoId);
             return View(registro);
         }
 
@@ -142,7 +149,7 @@ namespace Estacionamento.Controllers
         {
             ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamentos, "Id", "Nome");
             ViewData["FuncionarioId"] = new SelectList(_context.Funcionarios, "Id", "Cpf");
-            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Id");
+            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Placa");
             return View();
         }
 
@@ -161,7 +168,7 @@ namespace Estacionamento.Controllers
             }
             ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamentos, "Id", "Nome", registro.EstacionamentoId);
             ViewData["FuncionarioId"] = new SelectList(_context.Funcionarios, "Id", "Cpf", registro.FuncionarioId);
-            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Id", registro.VeiculoId);
+            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Placa", registro.VeiculoId);
             return View(registro);
         }
 
@@ -180,7 +187,7 @@ namespace Estacionamento.Controllers
             }
             ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamentos, "Id", "Nome", registro.EstacionamentoId);
             ViewData["FuncionarioId"] = new SelectList(_context.Funcionarios, "Id", "Cpf", registro.FuncionarioId);
-            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Id", registro.VeiculoId);
+            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Placa", registro.VeiculoId);
             return View(registro);
         }
 
@@ -218,7 +225,7 @@ namespace Estacionamento.Controllers
             }
             ViewData["EstacionamentoId"] = new SelectList(_context.Estacionamentos, "Id", "Nome", registro.EstacionamentoId);
             ViewData["FuncionarioId"] = new SelectList(_context.Funcionarios, "Id", "Cpf", registro.FuncionarioId);
-            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Id", registro.VeiculoId);
+            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Placa", registro.VeiculoId);
             return View(registro);
         }
 
