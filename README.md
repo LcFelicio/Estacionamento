@@ -11,13 +11,13 @@
 ## FUNCIONALIDADES
 
 #### Operações basicas de CRUD 
-  . Funcionario
-  . Cliente
-  . Veiculo
-  . Modelo Veiculo
-  . Estacionamento
-  . Registro de Controle
+  - Funcionario
+  - Cliente
+  - Veiculo
+  - Modelo Veiculo
+  - Estacionamento
+  - Registro de Controle
 
 ##### Movimentações
-Entrada/Saida de Veiculos
-Pagamento
+  - Entrada/Saida de Veiculos
+  - Pagamento
