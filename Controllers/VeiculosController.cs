@@ -66,8 +66,8 @@ namespace Estacionamento.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ModeloId"] = new SelectList(_context.ModelosVeiculo, "Id", "Descricao", veiculo.ModeloId);
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nome", veiculo.ClienteId);
+            ViewData["ModeloId"] = new SelectList(_context.ModelosVeiculo, "Id", "Id", veiculo.ModeloId);
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Id", veiculo.ClienteId);
             return View(veiculo);
         }
 
@@ -84,8 +84,8 @@ namespace Estacionamento.Controllers
             {
                 return NotFound();
             }
-            ViewData["ModeloId"] = new SelectList(_context.ModelosVeiculo, "Id", "Descricao", veiculo.ModeloId);
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nome", veiculo.ClienteId);
+            ViewData["ModeloId"] = new SelectList(_context.ModelosVeiculo, "Id", "Id", veiculo.ModeloId);
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Id", veiculo.ClienteId);
             return View(veiculo);
         }
 
@@ -121,8 +121,8 @@ namespace Estacionamento.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ModeloId"] = new SelectList(_context.ModelosVeiculo, "Id", "Descricao", veiculo.ModeloId);
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nome", veiculo.ClienteId);
+            ViewData["ModeloId"] = new SelectList(_context.ModelosVeiculo, "Id", "Id", veiculo.ModeloId);
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Id", veiculo.ClienteId);
             return View(veiculo);
         }
 
