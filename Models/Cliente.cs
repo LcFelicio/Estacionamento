@@ -27,6 +27,6 @@ namespace Estacionamento.Models
 
         [Required(ErrorMessage = "Campo CPF é obrigatório!")]
         [Display(Name = "CPF: ")]
-        public int Cpf { get; set; }
+        public string Cpf { get; set; }
     }
 }
