@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Estacionamento.Models;
+using System.Drawing;
 
 namespace Estacionamento.Controllers
 {
@@ -60,6 +61,53 @@ namespace Estacionamento.Controllers
         // POST: Registros/Entrada
         public async Task<IActionResult> Entrada([Bind("Id,Entrada,VeiculoId,FuncionarioId,EstacionamentoId")] Registro registro)
         {
+            Veiculo veiculo = new Veiculo();
+
+            var contexto = _context.Veiculos.Include(r => r.Modelo);
+            var innerContexto = _context.Estacionamentos;
+
+            var conReg = _context.Registros.Include(r => r.Estacionamento).Include(r => r.Funcionario).Include(r => r.Veiculo).Include(r => r.Veiculo.Modelo);
+
+            foreach (Veiculo v in contexto)
+            {
+                if (v.Id == registro.VeiculoId)
+                {
+                    veiculo = v;
+                    break;
+                }
+            }
+
+            int vagas = 0;
+
+            switch (veiculo.Modelo.Tipo)
+            {
+                case TipoVeiculo.P:
+                    vagas = innerContexto.Find(registro.EstacionamentoId).QtdeVagasP;
+                    break;
+                case TipoVeiculo.M:
+                    vagas = innerContexto.Find(registro.EstacionamentoId).QtdeVagasM;
+                    break;
+                case TipoVeiculo.G:
+                    vagas = innerContexto.Find(registro.EstacionamentoId).QtdeVagasG;
+                    break;
+            }
+
+            foreach(Registro reg in conReg)
+            {
+                if (!reg.Pago)
+                {
+                    if (veiculo.Modelo.Tipo == reg.Veiculo.Modelo.Tipo)
+                    {
+                        vagas--;
+                    }
+                }
+            }
+
+            if(vagas <= 0)
+            {
+                return NotFound();
+            }
+
             if (ModelState.IsValid)
             {
                 _context.Add(registro);
@@ -111,13 +159,13 @@ namespace Estacionamento.Controllers
                     switch (saida.Veiculo.Modelo.Tipo)
                     {
                         case TipoVeiculo.P:
-                            valor = saida.Estacionamento.Tarifa + saida.Estacionamento.ValorHora * (saida.Entrada - saida.Saida).TotalHours;
+                            valor = saida.Estacionamento.Tarifa + saida.Estacionamento.ValorHora * (registro.Saida - saida.Entrada).TotalHours;
                             break;
                         case TipoVeiculo.M:
-                            valor = saida.Estacionamento.Tarifa + (saida.Estacionamento.ValorHora + saida.Estacionamento.ValorHora * 0.25) * (saida.Entrada - saida.Saida).TotalHours;
+                            valor = saida.Estacionamento.Tarifa + (saida.Estacionamento.ValorHora + saida.Estacionamento.ValorHora * 0.25) * (registro.Saida - saida.Entrada).TotalHours;
                             break;
                         case TipoVeiculo.G:
-                            valor = saida.Estacionamento.Tarifa + (saida.Estacionamento.ValorHora + saida.Estacionamento.ValorHora * 0.75) * (saida.Entrada - saida.Saida).TotalHours;
+                            valor = saida.Estacionamento.Tarifa + (saida.Estacionamento.ValorHora + saida.Estacionamento.ValorHora * 0.75) * (registro.Saida - saida.Entrada).TotalHours;
                             break;
                     }
 
@@ -129,7 +177,7 @@ namespace Estacionamento.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!RegistroExists(registro.Id))
+                    if (!RegistroExists(saida.Id))
                     {
                         return NotFound();
                     }
@@ -140,8 +188,63 @@ namespace Estacionamento.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Placa", registro.VeiculoId);
-            return View(registro);
+            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Placa", saida.VeiculoId);
+            return View(saida);
+        }
+
+        // GET: Registros/Pagamento
+        public IActionResult Pagamento()
+        {
+            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Placa");
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        // POST: Registros/Pagamento
+        public async Task<IActionResult> Pagamento([Bind("VeiculoId")] Registro registro)
+        {
+            Registro saida = new Registro();
+
+            var contexto = _context.Registros.Include(r => r.Estacionamento).Include(r => r.Funcionario).Include(r => r.Veiculo);
+
+            foreach (Registro r in contexto)
+            {
+                if (r.VeiculoId == registro.VeiculoId && !r.Pago)
+                {
+                    saida = r;
+                    break;
+                }
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    if (saida.Veiculo == null)
+                    {
+                        return NotFound();
+                    }
+
+                    saida.Pago = true;
+                    _context.Update(saida);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!RegistroExists(saida.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["VeiculoId"] = new SelectList(_context.Veiculos, "Id", "Placa", saida.VeiculoId);
+            return View(saida);
         }
 
         // GET: Registros/Create
