@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Estacionamento.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Estacionamento.Models;
 
 namespace Estacionamento.Controllers
 {
+    [Authorize]
     public class FuncionariosController : Controller
     {
         private readonly Contexto _context;
@@ -21,7 +19,7 @@ namespace Estacionamento.Controllers
         // GET: Funcionarios
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Funcionarios.ToListAsync());
+            return View(await _context.Funcionarios.ToListAsync());
         }
 
         // GET: Funcionarios/Details/5
@@ -180,14 +178,14 @@ namespace Estacionamento.Controllers
             {
                 _context.Funcionarios.Remove(funcionario);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool FuncionarioExists(int id)
         {
-          return _context.Funcionarios.Any(e => e.Id == id);
+            return _context.Funcionarios.Any(e => e.Id == id);
         }
     }
 }

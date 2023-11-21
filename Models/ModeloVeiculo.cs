@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Estacionamento.Models
 {
@@ -10,7 +10,7 @@ namespace Estacionamento.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "Id: ")]
         public int Id { get; set; }
-        
+
         [Display(Name = "Descricao: ")]
         public string Descricao { get; set; }
 
@@ -18,6 +18,6 @@ namespace Estacionamento.Models
         public string Marca { get; set; }
 
         [Display(Name = "Tipo: ")]
-        public TipoVeiculo Tipo {  get; set; }
+        public TipoVeiculo Tipo { get; set; }
     }
 }

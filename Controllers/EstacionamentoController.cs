@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Estacionamento.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Estacionamento.Models;
 
 namespace Estacionamento.Controllers
 {
+    [Authorize]
     public class EstacionamentoController : Controller
     {
         private readonly Contexto _context;
@@ -21,7 +19,7 @@ namespace Estacionamento.Controllers
         // GET: Estacionamento
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Estacionamentos.ToListAsync());
+            return View(await _context.Estacionamentos.ToListAsync());
         }
 
         // GET: Estacionamento/Details/5
@@ -167,14 +165,14 @@ namespace Estacionamento.Controllers
             {
                 _context.Estacionamentos.Remove(estacionamentoModel);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool EstacionamentoModelExists(int id)
         {
-          return _context.Estacionamentos.Any(e => e.Id == id);
+            return _context.Estacionamentos.Any(e => e.Id == id);
         }
     }
 }

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Estacionamento.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Estacionamento.Models;
 
 namespace Estacionamento.Controllers
 {
+    [Authorize]
     public class VeiculosController : Controller
     {
         private readonly Contexto _context;
@@ -160,14 +158,14 @@ namespace Estacionamento.Controllers
             {
                 _context.Veiculos.Remove(veiculo);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool VeiculoExists(int id)
         {
-          return _context.Veiculos.Any(e => e.Id == id);
+            return _context.Veiculos.Any(e => e.Id == id);
         }
     }
 }

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Estacionamento.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Estacionamento.Models;
 
 namespace Estacionamento.Controllers
 {
@@ -19,12 +16,14 @@ namespace Estacionamento.Controllers
         }
 
         // GET: Clientes
+        [Authorize]
         public async Task<IActionResult> Index()
         {
-              return View(await _context.Clientes.ToListAsync());
+            return View(await _context.Clientes.ToListAsync());
         }
 
         // GET: Clientes/Details/5
+        [Authorize]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Clientes == null)
@@ -43,6 +42,7 @@ namespace Estacionamento.Controllers
         }
 
         // GET: Clientes/Create
+        [Authorize]
         public IActionResult Create()
         {
             var estado = Enum.GetValues(typeof(EstadoEnum))
@@ -62,6 +62,7 @@ namespace Estacionamento.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Nome,Endereco,Cidade,Estado,Email,Cpf")] Cliente cliente)
         {
@@ -75,6 +76,7 @@ namespace Estacionamento.Controllers
         }
 
         // GET: Clientes/Edit/5
+        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Clientes == null)
@@ -106,6 +108,7 @@ namespace Estacionamento.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Nome,Endereco,Cidade,Estado,Email,Cpf")] Cliente cliente)
         {
             if (id != cliente.Id)
@@ -137,6 +140,7 @@ namespace Estacionamento.Controllers
         }
 
         // GET: Clientes/Delete/5
+        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Clientes == null)
@@ -156,6 +160,7 @@ namespace Estacionamento.Controllers
 
         // POST: Clientes/Delete/5
         [HttpPost, ActionName("Delete")]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -168,14 +173,15 @@ namespace Estacionamento.Controllers
             {
                 _context.Clientes.Remove(cliente);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize]
         private bool ClienteExists(int id)
         {
-          return _context.Clientes.Any(e => e.Id == id);
+            return _context.Clientes.Any(e => e.Id == id);
         }
     }
 }

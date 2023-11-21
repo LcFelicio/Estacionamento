@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Estacionamento.Models
 {
@@ -15,12 +15,12 @@ namespace Estacionamento.Models
 
         [Display(Name = "Cor: ")]
         public string cor { get; set; }
-        
+
         [ForeignKey("ModeloId")]
         [Display(Name = "Modelo: ")]
         public int ModeloId { get; set; }
         public ModeloVeiculo Modelo { get; set; }
-        
+
         [ForeignKey("ClienteId")]
         [Display(Name = "Cliente: ")]
         public int ClienteId { get; set; }
