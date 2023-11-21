@@ -9,7 +9,7 @@ namespace Estacionamento.Controllers
 
         public HomeController()
         {
-
+            
         }
 
         public IActionResult Index()

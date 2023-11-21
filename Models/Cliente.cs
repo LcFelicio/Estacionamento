@@ -9,7 +9,7 @@ namespace Estacionamento.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = "Id: ")]
         public int Id { get; set; }
-
+        
         [Display(Name = "Nome: ")]
         public string Nome { get; set; }
 

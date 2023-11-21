@@ -1,8 +1,13 @@
-﻿using Estacionamento.Models;
-using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Estacionamento.Models;
+using System.Drawing;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Estacionamento.Controllers
 {
@@ -89,7 +94,7 @@ namespace Estacionamento.Controllers
                     break;
             }
 
-            foreach (Registro reg in conReg)
+            foreach(Registro reg in conReg)
             {
                 if (!reg.Pago)
                 {
@@ -100,7 +105,7 @@ namespace Estacionamento.Controllers
                 }
             }
 
-            if (vagas <= 0)
+            if(vagas <= 0)
             {
                 return NotFound();
             }
@@ -146,11 +151,11 @@ namespace Estacionamento.Controllers
             {
                 try
                 {
-                    if (saida.Veiculo == null)
+                    if(saida.Veiculo == null)
                     {
                         return NotFound();
                     }
-
+                    
                     double valor = 0;
 
                     switch (saida.Veiculo.Modelo.Tipo)
@@ -364,14 +369,14 @@ namespace Estacionamento.Controllers
             {
                 _context.Registros.Remove(registro);
             }
-
+            
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool RegistroExists(int id)
         {
-            return _context.Registros.Any(e => e.Id == id);
+          return _context.Registros.Any(e => e.Id == id);
         }
     }
 }
