@@ -40,6 +40,7 @@ namespace Estacionamento.Controllers
                 .Include(r => r.Estacionamento)
                 .Include(r => r.Funcionario)
                 .Include(r => r.Veiculo)
+                .OrderBy(r => r.Entrada)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (registro == null)
             {
