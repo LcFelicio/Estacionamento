@@ -59,6 +59,16 @@ namespace Estacionamento.Controllers
             return View();
         }
 
+        public IActionResult Error()
+        {
+            return View();
+        }
+
+        public IActionResult VagasInsuficientes()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         // POST: Registros/Entrada
@@ -82,34 +92,37 @@ namespace Estacionamento.Controllers
 
             int vagas = 0;
 
+            EstacionamentoModel estacionamento = registro.Estacionamento;
+
             switch (veiculo.Modelo.Tipo)
             {
                 case TipoVeiculo.P:
-                    vagas = innerContexto.Find(registro.EstacionamentoId).QtdeVagasP;
+                    vagas = innerContexto.Find(registro.EstacionamentoId).QtdeVagasP - 1;
+                    if (vagas <= 0)
+                    {
+                        return VagasInsuficientes();
+                    }
+                    estacionamento.QtdeVagasP = vagas;
                     break;
                 case TipoVeiculo.M:
-                    vagas = innerContexto.Find(registro.EstacionamentoId).QtdeVagasM;
+                    vagas = innerContexto.Find(registro.EstacionamentoId).QtdeVagasM - 1;
+                    if (vagas <= 0)
+                    {
+                        return VagasInsuficientes();
+                    }
+                    estacionamento.QtdeVagasM = vagas;
                     break;
                 case TipoVeiculo.G:
-                    vagas = innerContexto.Find(registro.EstacionamentoId).QtdeVagasG;
+                    vagas = innerContexto.Find(registro.EstacionamentoId).QtdeVagasG - 1;
+                    if (vagas <= 0)
+                    {
+                        return VagasInsuficientes();
+                    }
+                    estacionamento.QtdeVagasG = vagas;
                     break;
             }
 
-            foreach(Registro reg in conReg)
-            {
-                if (!reg.Pago)
-                {
-                    if (veiculo.Modelo.Tipo == reg.Veiculo.Modelo.Tipo)
-                    {
-                        vagas--;
-                    }
-                }
-            }
-
-            if(vagas <= 0)
-            {
-                return NotFound();
-            }
+            _context.Update(estacionamento);
 
             if (ModelState.IsValid)
             {
@@ -171,6 +184,40 @@ namespace Estacionamento.Controllers
                             valor = saida.Estacionamento.Tarifa + (saida.Estacionamento.ValorHora + saida.Estacionamento.ValorHora * 0.75) * (registro.Saida - saida.Entrada).TotalHours;
                             break;
                     }
+
+                    int vagas = 0;
+
+                    EstacionamentoModel estacionamento = registro.Estacionamento;
+                    Veiculo veiculo = new Veiculo();
+                    var innerContexto = _context.Estacionamentos;
+                    var veiculos = _context.Veiculos;
+
+                    foreach (Veiculo v in veiculos)
+                    {
+                        if (v.Id == registro.VeiculoId)
+                        {
+                            veiculo = v;
+                            break;
+                        }
+                    }
+
+                    switch (veiculo.Modelo.Tipo)
+                    {
+                        case TipoVeiculo.P:
+                            vagas = innerContexto.Find(registro.EstacionamentoId).QtdeVagasP + 1;
+                            estacionamento.QtdeVagasP = vagas;
+                            break;
+                        case TipoVeiculo.M:
+                            vagas = innerContexto.Find(registro.EstacionamentoId).QtdeVagasM + 1;
+                            estacionamento.QtdeVagasM = vagas;
+                            break;
+                        case TipoVeiculo.G:
+                            vagas = innerContexto.Find(registro.EstacionamentoId).QtdeVagasG + 1;
+                            estacionamento.QtdeVagasG = vagas;
+                            break;
+                    }
+
+                    _context.Update(estacionamento);
 
                     saida.Saida = registro.Saida;
                     saida.ValorTotal = valor;
