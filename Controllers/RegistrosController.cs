@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Estacionamento.Models;
 using System.Drawing;
 using Microsoft.AspNetCore.Authorization;
+using NuGet.Protocol;
 
 namespace Estacionamento.Controllers
 {
@@ -375,6 +376,12 @@ namespace Estacionamento.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public async Task<IActionResult> Buscar(string filtro)
+        {
+            List<Registro> lista = new List<Registro>();
+            lista = _context.Registros.Where(r => r.Veiculo.Placa == filtro).ToList();
+            return View(lista);
+        }
         private bool RegistroExists(int id)
         {
           return _context.Registros.Any(e => e.Id == id);
