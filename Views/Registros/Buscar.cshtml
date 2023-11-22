@@ -1,17 +1,25 @@
 ﻿@model IEnumerable<Estacionamento.Models.Registro>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Buscar";
 }
 
-<h1>Registros</h1>
+<h1>Buscar</h1>
 
 <p>
-    <a asp-action="Create">Adicionar Novo</a>
+    <a asp-action="Buscar">Buscar</a>
 </p>
-<p>
-    <a asp-action="Find">Buscar</a>
-</p>
+<div>
+    <form asp-action="Buscar">
+        <div class="form-group">
+            <label asp-for="filtro" class="control-label"></label>
+            <input asp-for="filtro" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Filtrar" class="btn btn-primary" />
+        </div>
+    </form>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -55,7 +63,7 @@
                 @Html.DisplayFor(modelItem => item.Pago)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Veiculo.Placa)
+                @Html.DisplayFor(modelItem => item.Veiculo.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Funcionario.Cpf)
@@ -64,9 +72,9 @@
                 @Html.DisplayFor(modelItem => item.Estacionamento.Nome)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Excluir</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
 }
