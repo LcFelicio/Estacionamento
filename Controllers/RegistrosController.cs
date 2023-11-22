@@ -93,7 +93,16 @@ namespace Estacionamento.Controllers
 
             int vagas = 0;
 
-            EstacionamentoModel estacionamento = registro.Estacionamento;
+            EstacionamentoModel estacionamento = new EstacionamentoModel();
+
+            foreach (EstacionamentoModel v in innerContexto)
+            {
+                if (v.Id == registro.EstacionamentoId)
+                {
+                    estacionamento = v;
+                    break;
+                }
+            }
 
             switch (veiculo.Modelo.Tipo)
             {
@@ -188,9 +197,9 @@ namespace Estacionamento.Controllers
 
                     int vagas = 0;
 
-                    EstacionamentoModel estacionamento = registro.Estacionamento;
+                    EstacionamentoModel estacionamento = saida.Estacionamento;
+
                     Veiculo veiculo = new Veiculo();
-                    var innerContexto = _context.Estacionamentos;
                     var veiculos = _context.Veiculos;
 
                     foreach (Veiculo v in veiculos)
@@ -205,15 +214,15 @@ namespace Estacionamento.Controllers
                     switch (veiculo.Modelo.Tipo)
                     {
                         case TipoVeiculo.P:
-                            vagas = innerContexto.Find(registro.EstacionamentoId).QtdeVagasP + 1;
+                            vagas = estacionamento.QtdeVagasP + 1;
                             estacionamento.QtdeVagasP = vagas;
                             break;
                         case TipoVeiculo.M:
-                            vagas = innerContexto.Find(registro.EstacionamentoId).QtdeVagasM + 1;
+                            vagas = estacionamento.QtdeVagasM + 1;
                             estacionamento.QtdeVagasM = vagas;
                             break;
                         case TipoVeiculo.G:
-                            vagas = innerContexto.Find(registro.EstacionamentoId).QtdeVagasG + 1;
+                            vagas = estacionamento.QtdeVagasG + 1;
                             estacionamento.QtdeVagasG = vagas;
                             break;
                     }
@@ -429,6 +438,7 @@ namespace Estacionamento.Controllers
             lista = _context.Registros.Where(r => r.Veiculo.Placa == filtro).ToList();
             return View(lista);
         }
+
         private bool RegistroExists(int id)
         {
           return _context.Registros.Any(e => e.Id == id);
